@@ -58,15 +58,3 @@ void loop() {
         digitalWrite(4, HIGH); // Desligar ventilador
     }
 }
-
-// Your custom SysTick interrupt code goes here
-int sysTickHook(void) {
-  // Example: Increment a counter every time the hook is called (every 1ms by default)
-  static unsigned long custom_ms_counter = 0;
-  custom_ms_counter++;
-
-  // Add more short, non-blocking code here (e.g., check a button, update a simple state)
-  
-  // Return 0 to indicate the hook is done and the default handler should continue
-  return 0; 
-}
