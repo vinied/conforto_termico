@@ -112,7 +112,7 @@ void RunVerySlowTimeTask(void)
     #endif
 
     static uint8_t minute_counter = 0;
-    if (minute_counter == 1)
+    if (minute_counter == 19)
     {
         float ntc_temp, mcu_temp, humidity, dht11_temp;
         //ntc_temp = GetTemperature();

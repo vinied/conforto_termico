@@ -1,0 +1,37 @@
+{
+    "version": 1,
+    "author": "Vinied",
+    "editor": "wokwi",
+    "parts": [
+        {
+            "type": "wokwi-arduino-uno",
+            "id": "uno",
+            "top": -265.8,
+            "left": -369.56,
+            "attrs": {}
+        },
+        {
+	    "type": "wokwi-relay-module", 
+	    "id": "relay1", 
+	    "top": -350, 
+	    "left": -30, 
+	    "attrs": {} 
+	},
+	{
+      	    "type": "wokwi-dht22",
+      	    "id": "dht1",
+      	    "top": -167.3,
+      	    "left": -9.8,
+      	    "attrs": { "temperature": "11.6" }
+    	}
+    ],
+    "connections": [
+        [ "uno:GND.1", "relay1:GND", "black", [ "v0" ] ],
+	[ "uno:5V", "relay1:VCC", "red", [ "v0" ] ],
+	[ "uno:4", "relay1:IN", "green", [ "v0" ] ],
+	[ "dht1:VCC", "uno:VIN", "red",  [ "h-185.6", "v-134.4" ] ],
+	[ "dht1:GND", "uno:GND.2", "black", [ "v38.8", "h-127.2", "v0", "h-111.1" ] ],
+	[ "dht1:SDA", "uno:2", "green", [ "v18.8", "h-55.5", "v-57.2" ] ]
+    ],
+    "dependencies": {}
+  }
