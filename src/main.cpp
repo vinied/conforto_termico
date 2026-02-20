@@ -218,19 +218,25 @@ void loop() {
 
     Serial.println("Publishing...");
 
-    char dht_tmp_str[5], dht_hum_str[5], mcu_temp_str[5];
+    char dht_tmp_str[10], dht_hum_str[10], mcu_temp_str[10];
     dtostrf(dht_temp, 4, 2, dht_tmp_str);
     dtostrf(humidity, 4, 2, dht_hum_str);
     dtostrf(mcu_temp, 4, 2, mcu_temp_str);
 
     Serial.print("Umidade: ");
     Serial.println(humidity);
+    Serial.print("DHT: ");
+    Serial.println(dht_temp);
+    Serial.print("MCU: ");
+    Serial.println(mcu_temp);
 
     // sendRaw(pubPacket, 7);
     static uint8_t i = 0;
     if (i%4 == 0) {
         if (mcu_temp)
         {
+            Serial.print("Pucblicar MCU temp: ");
+            Serial.println(mcu_temp_str);
             mqttPublish(topics[1], mcu_temp_str);
         }
     } else if (i%4 == 1)
@@ -244,12 +250,16 @@ void loop() {
         }
     } else if (i%4 == 2) {
         if(dht_temp) {
+            Serial.print("Publicar DHT temp: ");
+            Serial.println(dht_tmp_str);
             mqttPublish(topics[0], dht_tmp_str);
         }
     } else
     {
         if(humidity)
         {
+            Serial.print("Publicar Umidade: ");
+            Serial.println(dht_hum_str);
             mqttPublish(topics[3], dht_hum_str);
         }
     }
