@@ -42,7 +42,6 @@ static bool isDataValid(uint8_t itens[BYTES]);
  */
 void DHT11_run(TASKS_t running_task)
 {
-    static uint8_t count = 0;
     switch(running_task)
     {
     case POWERON_TASK:
@@ -54,18 +53,12 @@ void DHT11_run(TASKS_t running_task)
         // (the sensor readings may take up to 2 seconds)
         // Serial.print("DHT11 counter:");
         // Serial.println(count);
-        if(count == 2)
+        Serial.println("Hora de medir a temp!");
+        uint8_t ret_code = dht11MeasureTemperature();
+        if(ret_code)
         {
-            uint8_t ret_code = dht11MeasureTemperature();
-            if(ret_code)
-            {
-                /* Log internal error */
-                // INTERRLOG("Temperature error");
-            }
-            count = 0;
-        } else
-        {
-            count++;
+            /* Log internal error */
+            // INTERRLOG("Temperature error");
         }
         break;
     default:

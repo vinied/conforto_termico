@@ -32,6 +32,8 @@ void RunVerySlowTimeTask(void);
 void RunPowerOnTask(void);
 void RunPowerOffTask(void);
 
+bool IsSoundAlarm(void);
+
 
 /**  @}
  * End of task_module group inclusion

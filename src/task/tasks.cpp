@@ -20,7 +20,7 @@
 #include "tasks.h"
 // #include "panel.h"
 // #include "terminal.h"
-// #include "cell_temperature.h"
+#include "ntc_temperature.h"
 #include "mcu_temperature_access.h"
 // #include "watchdog.h"
 #include "dht11_access.h"
@@ -60,9 +60,7 @@ void RunFastTimeTask(void)
     MODBUS_run(FAST_TIME_TASK);
     #endif
 
-    static uint8_t luz = 0;
-    // GetNRF52832InternalTemperature();
-    digitalWrite(8, ~luz);
+    NTC_TEMPERATURE_run(FAST_TIME_TASK);
     
 }
 
@@ -71,12 +69,6 @@ void RunFastTimeTask(void)
  */
 void RunMediumTimeTask(void)
 {
-    #ifdef HARDWARE_CPQD
-    #ifndef SUPER_UM
-    MCP3562_run(MEDIUM_TIME_TASK);
-    #endif
-    #endif
-
     uint8_t state_sound = 0;
     state_sound = digitalRead(3); // Detector de som forte
 
@@ -112,17 +104,13 @@ void RunVerySlowTimeTask(void)
     #endif
 
     static uint8_t minute_counter = 0;
-    if (minute_counter == 19)
+    if (minute_counter == 1)
     {
-        float ntc_temp, mcu_temp, humidity, dht11_temp;
-        //ntc_temp = GetTemperature();
-        dht11_temp = Dht11GetTemperature();
-        mcu_temp = GetMcuInternalTemperature();
-        humidity = Dht11GetHumidity();
-        Serial.print(  String(dht11_temp) + " " 
-                    +  String(mcu_temp) + " "
-                    +  String(alarme_sonoro) + " ");
-        Serial.println(humidity);
+        float ntc_temp;
+        ntc_temp = GetTemperature();
+
+        Serial.print(  String(ntc_temp));
+
         // Serial.println(alarme_sonoro, humidity);
         if (ntc_temp > 30)
         {
@@ -149,6 +137,7 @@ void RunVerySlowTimeTask(void)
         
     }
 
+    NTC_TEMPERATURE_run(VERY_SLOW_TIME_TASK);
     DHT11_run(VERY_SLOW_TIME_TASK);
 
 }
@@ -160,6 +149,10 @@ void RunPowerOffTask(void)
 {
 }
 
+bool IsSoundAlarm(void)
+{
+    return alarme_sonoro;
+}
 
 /**  @}
  * End of task_module group definition
